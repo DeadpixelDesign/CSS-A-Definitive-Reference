@@ -1,0 +1,1 @@
+GitHub Pages is configured to deploy the build artifact from the Actions workflow.
