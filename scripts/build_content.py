@@ -1,4 +1,4 @@
-import json, re, html
+import json, os, re, html
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -6,6 +6,7 @@ SOURCE = PROJECT_ROOT / 'static/CSS_Definitive_Reference_2026.md'
 OUT = PROJECT_ROOT / 'src/lib/content.js'
 STATIC = PROJECT_ROOT / 'static/CSS_Definitive_Reference_2026.md'
 CHAPTERS = PROJECT_ROOT / 'static/chapters'
+BASE_PATH = os.environ.get('BASE_PATH', '')
 
 def inline(value):
     value = html.escape(value, quote=False)
@@ -15,7 +16,10 @@ def inline(value):
     def image_token(match):
         token = f'__INLINE_IMAGE_{len(images)}__'
         alt = html.escape(match.group(1), quote=True)
-        src = html.escape(match.group(2), quote=True)
+        raw_src = match.group(2)
+        if raw_src.startswith('/'):
+            raw_src = f'{BASE_PATH}{raw_src}'
+        src = html.escape(raw_src, quote=True)
         images.append((token, f'<img src="{src}" alt="{alt}" loading="lazy">'))
         return token
 
