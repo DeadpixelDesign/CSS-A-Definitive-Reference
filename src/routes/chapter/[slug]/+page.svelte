@@ -50,6 +50,6 @@
     {/if}
   </div>
   <div class="prose" class:property-reference={chapter.isPropertyReference}>
-    {@html chapter.html}
+    {@html chapter.html.replaceAll('<img src="/', `<img src="${base}/`)}
   </div>
 </article>
