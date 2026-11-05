@@ -17,6 +17,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      BASE_PATH: /${{ github.event.repository.name }}
     steps:
       - name: Check out the book
         uses: actions/checkout@v4
@@ -30,8 +32,6 @@ jobs:
       - name: Generate chapter content
         run: npm run content
       - name: Build the static site
-        env:
-          BASE_PATH: /${{ github.event.repository.name }}
         run: npm run build
       - name: Upload the build folder
         uses: actions/upload-pages-artifact@v3
